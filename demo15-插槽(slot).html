@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中的插槽(slot)</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <child>
+            <div class="header" slot="header">header</div>
+            <div class="middle">middle</div>
+            <div class="footer">footer</div>
+        </child>
+    <div>
+    <script>
+        Vue.component('child',{
+            //ES6中 ` ` 为模板字符串引用符；slot标签，插槽符，里面可以写一些默认内容，
+            // 当child标签中没有插入东西时就会显示默认内容，否则不显示;
+            //具名插槽与非具名插槽，当 <slot name="header">默认内容</slot> 这个具名插槽没有找到 slot="header" 的插入内容时就会显示默认内容
+            //非具名插槽 <slot>默认内容</slot> 不会插入已指定 slot="header" 的具名插入内容
+            template: `<div>
+                            <slot name="header">默认内容</slot>
+                            <p>hello</p>
+                            <slot>默认内容</slot> 
+                       </div>`,
+        })
+        var vm = new Vue({
+            el: "#root"
+        })
+    </script>
+</body>
+</html>

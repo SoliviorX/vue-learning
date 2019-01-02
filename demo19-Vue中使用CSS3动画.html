@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中的CSS3动画</title>
+    <script src="./vue.js"></script>
+    <style>
+        /* 使用css3中 @keyframes 创建动画，自定义命名，此处命名为bounce-in*/
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        /* fade-enter-active和fade-leave-active是在transition标签包裹的内容显示隐藏过程中一直存在的类
+            此处自定义命名为.active和.leave
+        */
+        .active {
+            transform-origin: left center;
+            animation: bounce-in 1s;
+        }
+        .leave {
+            transform-origin: left center;
+            animation: bounce-in 1s reverse;
+        }
+        /* 在类中引用上面定义的动画的方法 */
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!--使用enter-active-class="active" leave-active-class="leave"的方法对两个类名自定义-->
+        <transition name="fade" enter-active-class="active" leave-active-class="leave">
+            <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleBtnClick">切换</button>  
+    <div>
+    <script>
+        var vm = new Vue({
+            data: {
+                show: true
+            },
+            el: "#root",
+            methods: {
+                handleBtnClick: function(){
+                    this.show = !this.show;
+                } 
+            }
+        })
+    </script>
+</body>
+</html>

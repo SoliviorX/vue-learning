@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中的列表过渡</title>
+    <script src="./vue.js"></script>
+    <style>
+        .v-enter, .v-leave-to {
+            opacity: 0;
+        }
+        .v-enter-active, .v-leave-active {
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!--transition-group标签会使列表中的每一项都加载过渡动画效果-->
+        <transition-group>
+            <!--为每一项加一个key值，key值最好不要用index-->
+            <div v-for='item of list' :key="item.id">{{item.title}}</div>
+        </transition-group>
+        <button @click="handleBtnClick">toggle</button>
+    </div>
+    <script>
+        var count = 0;
+        var vm = new Vue ({
+            el: '#root',
+            data: {
+                list: []
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.list.push({
+                        id: count++,
+                        title: 'hello world'
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

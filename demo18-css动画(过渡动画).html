@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中的CSS动画（或称过渡动画）</title>
+    <script src="./vue.js"></script>
+    <style>
+        /* transition过渡标签包裹的内容会有动画特性，原理是在隐藏和显示的过程中会向内容标签自动增加一些类；
+          在显示时增加v-enter、v-enter-to、v-enter-active属性，在隐藏时增加v-leave、v-leave-to、v-leave-active属性；
+          如果给transition标签增加一个 name="fade" 这样的属性，则v-enter这些属性中的v要改成name的值，此处就需改成fade-enter;
+
+        */
+        .v-enter {
+            opacity: 0;
+        }
+        .v-enter-active {
+            transition: opacity 2s;
+        }
+        .v-leave-to {
+            opacity: 0;
+        }
+        .v-leave-active {
+            transition: opacity 2s;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <transition>
+            <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleBtnClick">切换</button>  
+    <div>
+    <script>
+        var vm = new Vue({
+            data: {
+                show: true
+            },
+            el: "#root",
+            methods: {
+                handleBtnClick: function(){
+                    this.show = !this.show;
+                } 
+            }
+        })
+    </script>
+</body>
+</html>

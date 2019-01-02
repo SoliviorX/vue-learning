@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中同时使用过渡动画和animate动画</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">   <!--引入库-->
+    <style>
+        .fade-enter, .fade-leave-to {
+            opacity: 0;
+        }
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 2s;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!--使用enter-active-class="animated swing" 和leave-active-class="animated shake"
+            来引用animate动画库，一个animated值(必须)加一个动画名(在官网可查);
+            在transition中加入appear属性及appear-active-class="animated swing"来定义第一次刷新出场时的动画;
+            使Vue中既有animate动画，又有过渡动画，但两者动画完成时间可能不一致，加一个type="transition"使动画时间以过渡动画为准；
+            也可以自定义动画时长(可能过渡动画和animate动画全部结束了动画时间还没结束),如   :duration="{enter:5000,leave: 10000}"
+        -->
+        <transition name="fade"
+                    :duration="{enter:5000,leave: 10000}"
+                    appear
+                    appear-active-class="animated bounceInRight"
+                    enter-active-class="animated swing fade-enter-active" 
+                    leave-active-class="animated shake fade-leave-active"
+                     >
+            <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleBtnClick">toggle</button>  
+    <div>
+    <script>
+        var vm = new Vue({
+            data: {
+                show: true
+            },
+            el: "#root",
+            methods: {
+                handleBtnClick: function(){
+                    this.show = !this.show;
+                } 
+            }
+        })
+    </script>
+</body>
+</html>

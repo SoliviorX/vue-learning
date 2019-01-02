@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中多个元素或组件的过渡</title>
+    <script src="./vue.js"></script>
+    <style>
+        .v-enter, .v-leave-to {
+            opacity: 0;
+        }
+        .v-enter-active, .v-leave-active {
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+    <!----------------------------多元素动画------------------------------>
+    <div id="root">
+        <!--mode="out-in"表示先淡出再显示，mode="in-out"表示先显示在淡出-->
+        <transition mode="out-in">
+            <!--必须加上key值，不然vue会因为复用而无法显示动画-->
+            <div v-if="show" key="hello">hello world</div>
+            <div v-else key="bye">bye world</div>
+        </transition>
+        <button @click="handleBtnClick">toggle</button>
+    </div>
+    <script>
+        var vm = new Vue ({
+            el: '#root',
+            data: {
+                show: true
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+
+    <!-- --------------------------多组件动画------------------------------
+    <div id="root">
+        <transition mode="out-in">
+            <component :is="type"></component>
+        </transition>
+        <button @click="handleBtnClick">toggle</button>
+    </div>
+    <script>
+        Vue.component('child-one',{
+            template: '<div>child-one</div>'
+        })
+        Vue.component('child-two',{
+            template: '<div>child-two</div>'
+        })
+        var vm = new Vue ({
+            el: '#root',
+            data: {
+                type: "child-one"
+            },
+            methods: {
+                handleBtnClick: function() {
+                    this.type = this.type === 'child-one' ? 'child-two' : 'child-one';
+                }
+            }
+        })
+    </script> -->
+</body>
+</html>

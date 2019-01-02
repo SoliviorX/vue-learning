@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中的JS动画与velocity.js</title>
+    <script src="./vue.js"></script>
+    <script src="./velocity.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!--before-enter、enter、after-enter三个入场事件在过渡动画显示过程中依次发生
+            before-leave、leave、after-leave三个退场事件在过渡动画消失过程中依次发生-->
+        <transition name="fade"
+                    @before-enter="handleBeforeEnter"
+                    @enter="handleEnter"
+                    @after-enter="handleAfterEnter"
+                     >
+            <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleBtnClick">toggle</button>  
+    <div>
+    <script>
+        var vm = new Vue({
+            data: {
+                show: true
+            },
+            el: "#root",
+            methods: {
+                handleBtnClick: function(){
+                    this.show = !this.show;
+                },
+                //此处el表示transition包裹的元素
+                handleBeforeEnter: function(el) {
+                    el.style.color = 'red'
+                    //el.style.opacity = 0;
+                },
+                //需要传递两个参数,动画完成之后要调用一下done()
+                handleEnter: function(el,done) {
+                    setTimeout(() => {
+                        el.style.color = 'yellow'
+                    },2000)
+                    setTimeout(() => {
+                        done()
+                    },4000)
+                    //velocity.js动画库的使用
+                    //Velocity(el,{opacity: 1}, {duration: 1000,complete: done})
+                },
+                handleAfterEnter: function(el){
+                    el.style.color = "#000"
+                    //console.log('动画结束')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
