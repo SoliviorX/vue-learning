@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./vue.js"></script>
+    <script src="./jquery.js"></script>
+    <title>todoList</title>
+</head>
+<body>
+        <!--MVP模式    M————model(数据层) V————view(DOM层)  P————presenter(逻辑控制层)   面向DOM开发-->
+    <!-- <div>
+        <input type="text" id="input">
+        <button id="btn">提交</button>
+        <ul id="ul">
+            
+        </ul>
+    </div>
+    <script>
+        function Page() {}
+        $.extend(Page.prototype,{
+            init: function() {
+                this.bindEvents()
+            },
+            bindEvents: function(){
+                var btn = $('#btn');
+                btn.on('click', $.proxy(this.handleBtnClick,this))
+            },
+            handleBtnClick: function() {
+                var inputElem = $('#input');
+                var inputValue = inputElem.val();
+                var ulElem = $('#ul');
+                ulElem.append('<li>' + inputValue + '</li>')
+                inputElem.val('');
+            }
+        })
+        var page = new Page();
+        page.init();
+    </script> -->
+
+
+
+
+    <!-- MVVM模式 M————model(javascript) V————view(DOM,HTML) 
+        VM————Vue(DOM Listeners和Data Bindings)     使用MVVM模式面向数据开发-->
+    <div id="app">
+        <input type="text" v-model="inputValue">
+        <button v-on:click="handleBtnClick">提交</button>
+        <ul>
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                list: [],
+                inputValue: ""
+            },
+            methods: {
+                handleBtnClick: function(){
+                    this.list.push(this.inputValue);
+                    this.inputValue = ''
+                }
+            }
+        })
+    </script>
+</body>
+</html>

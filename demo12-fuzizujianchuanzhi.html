@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父子组件传值&参数检验&非prop特性</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <counter :count="0" @inc="handleIncrese"></counter>      <!--加冒号传的是数值0(引号里的内容看作js)；不加冒号传的是字符串"0"-->
+        <counter :count="1" @inc="handleIncrese"></counter>    <!--监听子组件的事件-->
+        <div>{{total}}</div>
+    <div>
+    <script>
+        var counter = {
+            props: ['count'], //用pops接受父组件传递过来的值,且:count属性不会显示在渲染后的标签中
+            //-----------------参数检验--------------------
+            // props: {
+            //     count: String;//或count: [Number,String]; 传值类型校验
+            //     //count: {
+            //         type: String,
+            //         required: true,  父组件必须传值
+            //         default: 'hahahaha',  没有传值时的默认值
+            //         validator: function(value){     //自定义校验器
+            //             return (value.length > 5)   
+            //         }
+            //     }
+            // }
+
+            //---------非prop特性---------
+            // 1.子组件没有接受父组件传递的属性，所以模板无法直接使用{{属性名}}；
+            // 2.属性会显示在渲染后的DOM中
+
+
+            data: function(){
+                return {
+                    number: this.count
+                }
+            },
+            template: '<div @click="handleClick">{{number}}</div>',
+            methods: {
+                handleClick: function(){
+                   // this.count ++ ; 不要直接修改父组件传过来的值，因为如果传过来的是引用类型的值，修改的话会影响其他组件。
+                    this.number ++; //用number缓存传递过来的count，修改number则不会有什么问题
+                    this.$emit('inc',2)
+                }
+            }
+
+        }
+        var vm = new Vue({
+            el: "#root",
+            data: {
+                total: 5
+            },
+            components: {
+                counter: counter
+            },
+            methods: {
+                handleIncrese: function(step){
+                    this.total += step    //step是$emit()的第二个参数
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>class与style绑定</title>
+    <script src="./vue.js"></script>
+    <style>
+        .activated{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <!--  -------------方法1--------------------------------
+    <div id="app">
+        <div @click="handleDivClick"
+             :class="{activated: isActivated}">hello world</div>    
+    </div>
+    //class与对象绑定
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                isActivated: false
+            },
+            methods: {
+                handleDivClick: function(){
+                    this.isActivated = !this.isActivated;
+                }
+            }
+        })
+    </script> -->
+    
+
+    <!--    -------------方法2--------------------------------
+    <div id="app">
+        <div @click="handleDivClick"
+                :class="[activated, activatedOne]">hello world</div>  
+    </div>
+    <script>
+        //class与数组绑定
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                activated: "",
+                activatedOne: "activated-one"
+            },
+            methods: {
+                handleDivClick: function(){
+                    this.activated = this.activated ==="activated" ? "" : "activated";
+                }
+            }
+        })
+    </script> -->
+
+
+    <div id="app">
+        <div @click="handleDivClick"
+                :style="styleObj">hello world</div> 
+            <!-- style里也可以是一个数组，如  :style="[styleObj,{fontSize: '20px'}]"--> 
+    </div>
+    <script>
+        //先把head标签里的style删掉
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                styleObj: {
+                    color: "black"
+                }
+            },
+            methods: {
+                handleDivClick: function(){
+                    this.styleObj.color = this.styleObj.color ==="black" ? "red" : "black";
+                }
+            }
+        })
+    </script>
+</body>
+</html>

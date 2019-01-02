@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>列表渲染</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <!---------------------------遍历数组------------------------------>
+    <div id="app">
+        <!--template标签帮助包裹元素，但不会被渲染到页面上-->
+        <template v-for="(item,index) of list" :key="item.id"> <!--of 比 in 更好-->
+            <!--重用和重新排序现有元素，为每一项提供一个唯一的key值-->
+            <div>{{item.text}}----{{index}}</div>
+            <span>{{item.text}}</span>
+        </template>
+    <script>
+        //push pop shift unshift splice sort reverse这些操作数组的变异方法将会触发视图更新；
+        //vm.list=[{...}]重新定义list的应用也可以引起视图更新；
+        //而vm.list[index]="..."这样的方法会改变list，但视图不会更新。
+        //Vue.set(vm.list,index值,{...})和vm.$set(vm.list,index值,{...})也可以改变list，且视图更新。
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                list: [{
+                    id: "010120201",
+                    text: "hello"
+                },
+                {
+                    id: "010120202",
+                    text: "Dell"
+                },
+                {
+                    id: "010120203",
+                    text: "Lee"
+                }]
+            }
+        })
+    </script>
+
+
+
+
+<!---------------------------遍历对象------------------------------>
+    <div id="app">
+        <div v-for="(item,index,key,value) of userInfo"> 
+            {{item}}----{{key}}-----{{value}}----{{index}}
+        </div>
+    </div>
+    <script>
+        //vm.userInfo.name = "..."就会引起视图更新
+        //vm.userInfo.address = "Wuhan"新增一项键值对，只会改变数据，视图不会更新
+        //vm.userInfo = {...}直接改变引用，视图会更新。
+        //Vue全局方法Vue.set(vm.userInfo,"address","Wuhan");这种方法也可以向对象中加键值对，且视图更新
+        //Vue实例方法vm.$set(vm.userInfo,"address","Wuhan")与全局方法等效；
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                userInfo: {
+                    name: "Shi",
+                    age : 24,
+                    gender: "male",
+                    salary: "secret"
+                }
+            }
+        })
+    </script>
+</body>
+</html>

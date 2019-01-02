@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue实例生命周期函数</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        //生命周期钩子的函数就是vue实例在某个时间点会自动执行的函数
+        //new Vue创建的是根vue实例
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                test: "hello world"
+            },
+            template: "<div>{{test}}</div>",
+            //生命周期钩子的函数并不放在methods里，而是直接放在vue实例里
+            beforeCreate: function() {
+                console.log("beforeCreate");
+            },
+            created: function() {
+                console.log("created");
+            },
+            beforeMount: function() {
+                console.log(this.$el);        //输出<div id="app"></div>
+                console.log("beforeMount");
+            },
+            mounted: function() {
+                console.log(this.$el);        //输出<div>hello world</div>
+                console.log("mounted");      //生命周期钩子的this指向调用它的vue实例
+            },
+            beforeDestroy: function() {       //执行vm.$destroy()后，beforeDestroy和destroyed这两个生命周期函数才会执行
+                console.log("beforeDestroy");
+            },
+            destroyed: function() {
+                console.log("destroyed");
+            },
+            beforeUpdate: function() {       //data改变后才会执行
+                console.log("beforeUpdate");
+            },
+            updated: function() {
+                console.log("updated");
+            }
+        })
+    </script>
+</body>
+</html>

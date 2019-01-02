@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ref</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div ref="hello" @click="handleClick">hello world</div>   <!--触发的是根组件里的事件-->
+        <counter ref="one" @change="handleChange"></counter>   <!--使用@事件，触发的是根组件里的事件；但模板里也定义了click事件-->
+        <counter ref="two" @change="handleChange"></counter>
+        <div>{{total}}</div>
+    <div>
+    <script>
+        Vue.component("counter",{
+            template: '<div @click="handleClick">{{number}}</div>',  
+            data: function(){
+                return {
+                    number: 0
+                }
+            },
+            methods: {
+                handleClick: function(){
+                    this.number ++;
+                    this.$emit("change")
+                }
+            }
+        })
+        var vm = new Vue({
+            el: "#root",
+            data: {
+                total: 0
+            },
+            methods: {
+                handleClick: function(){
+                    //标签里的ref，this.$refs.hello获取的是标签的DOM元素
+                    console.log(this.$refs.hello.innerHTML)
+                },
+                handleChange: function(){
+                    //组件里的ref，this.$refs.one获取的是子组件的引用
+                    this.total = this.$refs.one.number + this.$refs.two.number
+                }
+                
+            }
+        })
+    </script>
+</body>
+</html>

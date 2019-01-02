@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./vue.js"></script>
+    <script src="./jquery.js"></script>
+    <title>todoList</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="inputValue">
+        <button v-on:click="handleBtnClick">提交</button>
+        <!-- <ul>
+            <li v-for="item in list">{{item}}</li>
+        </ul> -->
+
+    <!--  --------------------父组件----------------------->
+        <todo-item v-bind:content="item"
+                   v-bind:index="index"              
+                   v-for="(item,index) in list"          
+                   @delete="handleItemDelete">       <!-- 监听delete事件-->
+        </todo-item>        <!-- 'v-bind:content'可简化为':content'；'v-bind:index'可简化为':index';‘v-on:click’可简化为‘@click’-->
+    </div>
+
+    <script>
+    //------------------子组件---------------------------------------
+
+        // ---------------------------全局组件---------------------------
+        // Vue.component('TodoItem', {
+        //     props   : ['content'],
+        //     template: '<li>{{content}}</li>'
+        // });
+
+        // ---------------------------局部组件---------------------------
+        var TodoItem = {
+            props   : ['content','index'],
+            template: "<li @click='handleItemClick'>{{content}}</li>",
+            methods: {
+                handleItemClick: function(){
+                    this.$emit('delete',this.index);//发出delete事件，并带有this.index这个参数,供父组件监听
+                }
+            }
+        }
+    //------------------------------------------------------------------------------------
+
+        var app = new Vue({
+            el: '#app',
+            components: {
+                TodoItem: TodoItem  //把TodoItem注册到这个Vue实例中，原来它叫TodoItem，在本实例中它依然叫TodoItem
+            },          //使用局部组件时需要用这种方式把局部组件注册
+            data: {
+                list: [],
+                inputValue: ""
+            },
+            methods: {
+                handleBtnClick: function(){
+                    this.list.push(this.inputValue);
+                    this.inputValue = ''
+                },
+                handleItemDelete: function(index){
+                    this.list.splice(index,1)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

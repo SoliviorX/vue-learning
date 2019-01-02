@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件使用中的细节</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <table>
+            <!--如果直接使用<row></row>会出bug，所以使用is属性消除bug；以下几种情况也是如此-->
+            <tr is="row"></tr>
+        </table>
+        <ul>
+            <li is="row"></li>
+        </ul>
+        <select>
+            <option is="row"></option>
+        </select>
+    <div>
+    <script>
+        Vue.component('row',{
+            //在子组件中定义data必须是一个函数，且返回一个对象；与根组件不同
+            data: function() {
+                return {
+                    content: 'this is a row'
+                }
+            },
+            template: '<tr><td>{{content}}</td></tr>'
+        })
+        var vm = new Vue({
+            el: "#root"
+        })
+    </script>
+</body>
+</html>

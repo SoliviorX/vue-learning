@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>模板语法</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+       <!--    {{fullName()}}  调用方法属性插值的方法-->
+        {{fullName}}    <!--调用计算属性和侦听器插值的方法-->
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                firstName: "Deshan",
+                lastName: "Shi",
+                fullName: "Deshan Shi",
+                age: "24"
+            },
+            //侦听器
+            watch: {
+                firstName: function() {
+                    console.log("计算了一次");
+                    this.fullName = this.firstName + ' ' + this.lastName;
+                },
+                lastName: function() {
+                    console.log("计算了一次");
+                    this.fullName = this.firstName + ' ' + this.lastName;
+                }
+            }
+            // //方法
+            // methods: {
+            //     //无缓存，每次渲染都会计算一次
+            //     fullName: function() {
+            //         console.log("计算了一次");
+            //         return this.firstName + ' ' + this.lastName;
+            //     }
+            // },
+            // //计算属性
+            // computed: {
+            //     //计算属性基于它们的依赖进行缓存，只有相关依赖发生改变时才会重新求值
+            //     fullName: function() {  
+            //         console.log("计算了一次");
+            //         return this.firstName + ' ' + this.lastName;
+            //     }
+            // }
+        })
+        //三种方法相比较，计算属性最简洁，效率最高
+    </script>
+    
+</body>
+</html>
